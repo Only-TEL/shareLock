@@ -1,0 +1,27 @@
+package ${basePackage}.${moduleName}.controller;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+import ${package}.bean.${className};
+import ${package}.service.I${className}Service;
+import com.xihua.base.AjaxResult;
+import com.xihua.base.BaseController;
+
+/**
+ * ${tableComment} 信息操作处理
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
+@RestController
+@RequestMapping("/${moduleName}/${classname}")
+public class ${className}Controller extends BaseController {
+
+    @Autowired
+    private I${className}Service ${classname}Service;
+
+
+
+}

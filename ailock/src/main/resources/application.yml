@@ -1,0 +1,31 @@
+
+# 代码生成配置
+gen:
+  version: 1.0
+  localdir: D:/ideaPro/shareLock/ailock
+  name: ailock
+  packageName: com.xihua
+  author: admin
+  autoRemovePre: false
+  tablePrefix: sys_
+spring:
+  profiles:
+    active: lock
+  # 热部署开关
+  devtools:
+    restart:
+      enabled: true
+# mybatis配置
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml
+  config-location: classpath:mybatis.xml
+logging:
+  level:
+    com.xihua: debug
+    org.springframework: WARN
+    org.springframework.boot: WARN
+# 容器配置
+server:
+  port: 8080
+  servlet:
+    context-path: /
