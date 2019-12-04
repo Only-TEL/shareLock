@@ -1,5 +1,6 @@
 package com.xihua.bean;
 
+import com.xihua.constants.Constants;
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
 import com.xihua.base.BaseEntity;
@@ -28,7 +29,7 @@ public class BackRecod extends BaseEntity {
     /**
      * 单车id
      */
-    private Integer backId;
+    private String backId;
     /**
      * 开始时间
      */
@@ -38,9 +39,9 @@ public class BackRecod extends BaseEntity {
      */
     private Date endTime;
     /**
-     * 单价，单位是分
+     * 单价，单位是角
      */
-    private Integer price;
+    private Integer price = Constants.PRICE_OF_HOUR;
     /**
      * 总计，单位是分
      */
@@ -70,11 +71,11 @@ public class BackRecod extends BaseEntity {
         return userId;
     }
 
-    public void setBackId(Integer backId) {
+    public void setBackId(String backId) {
         this.backId = backId;
     }
 
-    public Integer getBackId() {
+    public String getBackId() {
         return backId;
     }
 

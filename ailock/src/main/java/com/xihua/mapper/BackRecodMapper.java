@@ -3,6 +3,7 @@ package com.xihua.mapper;
 import com.xihua.bean.BackRecod;
 import java.util.List;
 import com.xihua.base.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 行车记录 数据层
@@ -13,4 +14,5 @@ import com.xihua.base.BaseMapper;
 public interface BackRecodMapper extends BaseMapper<BackRecod, Integer> {
 
 
+    BackRecod selectByRunningRecord(@Param("userId") Integer userId,@Param("backId") String backId);
 }

@@ -2,6 +2,8 @@ package com.xihua.service;
 
 import com.xihua.bean.BackRecod;
 import com.xihua.base.BaseService;
+import com.xihua.bean.SysUser;
+
 import java.util.List;
 
 /**
@@ -12,10 +14,12 @@ import java.util.List;
  */
 public interface IBackRecodService extends BaseService<BackRecod, Integer> {
 
-    /**
-     * 保存或更新
-     * @return 结果
-     */
+    // 保存或更新
     public int saveOrUpdateBackRecod(BackRecod backRecod);
 
+    // 查询存在的已开锁记录
+    BackRecod selectByRunningRecord(Integer userId, String backId);
+
+    // 生成开锁记录
+    int buildOpenRecord(BackRecod openRecod, SysUser sysUser);
 }

@@ -18,6 +18,8 @@ public class Constants {
     /** springboot 生成的sessionId*/
     public static final String DEFAULT_COOKIE_NAME = "JSESSIONID";
 
+    /** 自定义单价 单位角  一小时1块 */
+    public static final int PRICE_OF_HOUR = 10;
 
     /**定义cookie的有效时间*/
     public static final int COOKIE_MAX_AGE = 1800;

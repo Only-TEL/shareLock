@@ -133,5 +133,8 @@
         </foreach>
     </insert>
 
-
+    <select id="selectByRunningRecord" resultMap="BackRecodResult">
+        <include refid="selectBackRecodVo"/>
+        where user_id=#{userId} and back_id=#{backId} and status='0'
+    </select>
 </mapper>

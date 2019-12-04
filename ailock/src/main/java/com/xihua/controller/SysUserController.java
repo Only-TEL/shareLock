@@ -2,12 +2,14 @@ package com.xihua.controller;
 
 
 import com.xihua.constants.Constants;
+import com.xihua.exception.BusinessException;
 import com.xihua.utils.*;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.*;
 import com.xihua.bean.SysUser;
 import com.xihua.service.ISysUserService;
@@ -15,6 +17,7 @@ import com.xihua.base.AjaxResult;
 import com.xihua.base.BaseController;
 
 import javax.servlet.http.HttpSession;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 用户 信息操作处理
@@ -29,6 +32,8 @@ public class SysUserController extends BaseController {
 
     @Autowired
     private ISysUserService sysUserService;
+    @Autowired
+    private RedisTemplate redisTemplate;
 
     // 注册
     @ApiOperation("用户注册")
@@ -82,9 +87,19 @@ public class SysUserController extends BaseController {
     @PostMapping("/plogin")
     public AjaxResult pLogin(@RequestBody String jsonStr) {
         SysUser loginUser = (SysUser) tranObject(jsonStr, SysUser.class);
+        if(StringUtils.isEmpty(loginUser.getCaptcha())){
+            throw new BusinessException("请输入验证码");
+        }
         SysUser sysUser = sysUserService.selectUserByPhoneNumber(loginUser.getPhone());
-        // todo 从redis中取验证码，过期返回重新获取验证码
-        // todo 判断验证码是否一致
+        // 从redis中取验证码，过期返回重新获取验证码
+        Object value = redisTemplate.opsForValue().get(sysUser.getUserId());
+        if(StringUtils.isEmpty(value)){
+           throw new BusinessException("验证码已过期，请重新获取验证码");
+        }
+        // 判断验证码是否一致
+        if(!value.equals(loginUser.getCaptcha())){
+            return AjaxResult.error("验证码错误，请重试");
+        }
         return AjaxResult.success();
     }
 
@@ -100,7 +115,8 @@ public class SysUserController extends BaseController {
             return AjaxResult.error("请输入正确的手机号码");
         }
         String captcha = ZCommonUtils.buildCaptcha();
-        // todo 存储在redis中10分钟 key=userId value=captcha
+        // 存储在redis中10分钟 key=userId value=captcha
+        redisTemplate.opsForValue().set(sysUser.getUserId(),captcha,10, TimeUnit.MINUTES);
         return AjaxResult.success(captcha);
     }
 }
