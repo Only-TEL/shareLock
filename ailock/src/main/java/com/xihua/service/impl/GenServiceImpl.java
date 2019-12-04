@@ -2,6 +2,7 @@ package com.xihua.service.impl;
 
 import com.xihua.bean.ColumnInfo;
 import com.xihua.bean.TableInfo;
+import com.xihua.constants.Constants;
 import com.xihua.mapper.GenMapper;
 import com.xihua.service.IGenService;
 import com.xihua.utils.*;
@@ -57,6 +58,7 @@ public class GenServiceImpl implements IGenService {
         table.setClassName(className);
         table.setClassname(StringUtils.uncapitalize(className));
         table.setPackageName("com.xihua");
+        table.setAuthor(Global.getAuthor());
     }
 
     @Override

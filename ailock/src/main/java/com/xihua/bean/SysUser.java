@@ -11,7 +11,7 @@ import java.util.Date;
  * 用户表 sys_user
  *
  * @author admin
- * @date 2019-12-03
+ * @date 2019-12-04
  */
 public class SysUser extends BaseEntity {
 
@@ -20,7 +20,7 @@ public class SysUser extends BaseEntity {
     /**
      * 用户id
      */
-    private String userId;
+    private Integer userId;
     /**
      * 用户名
      */
@@ -29,6 +29,14 @@ public class SysUser extends BaseEntity {
      * 用户密码
      */
     private String password;
+    /**
+     *  验证码
+     */
+    private String captcha;
+    /**
+     * 盐
+     */
+    private String salt;
     /**
      * 邮箱
      */
@@ -45,36 +53,13 @@ public class SysUser extends BaseEntity {
      * 生日
      */
     private Date birthday;
-    /**
-     * 创建时间
-     */
-    private Date createTime;
-    /**
-     * 创建人
-     */
-    private String createBy;
-    /**
-     * 更新时间
-     */
-    private Date updateTime;
-    /**
-     * 更新人
-     */
-    private String updateBy;
-    /**
-     * 更新时间
-     */
-    private String remark;
-    /**
-     * 删除标记
-     */
-    private String delFlag;
 
-    public void setUserId(String userId) {
+
+    public void setUserId(Integer userId) {
         this.userId = userId;
     }
 
-    public String getUserId() {
+    public Integer getUserId() {
         return userId;
     }
 
@@ -92,6 +77,14 @@ public class SysUser extends BaseEntity {
 
     public String getPassword() {
         return password;
+    }
+
+    public void setSalt(String salt) {
+        this.salt = salt;
+    }
+
+    public String getSalt() {
+        return salt;
     }
 
     public void setEmail(String email) {
@@ -126,23 +119,31 @@ public class SysUser extends BaseEntity {
         return birthday;
     }
 
+    public String getCaptcha() {
+        return captcha;
+    }
+
+    public void setCaptcha(String captcha) {
+        this.captcha = captcha;
+    }
 
     @Override
     public String toString() {
         return new ToStringBuilder(this, ToStringStyle.MULTI_LINE_STYLE)
-                .append("userId" , getUserId())
-                .append("userName" , getUserName())
-                .append("password" , getPassword())
-                .append("email" , getEmail())
-                .append("phone" , getPhone())
-                .append("sex" , getSex())
-                .append("birthday" , getBirthday())
-                .append("createTime" , getCreateTime())
-                .append("createBy" , getCreateBy())
-                .append("updateTime" , getUpdateTime())
-                .append("updateBy" , getUpdateBy())
-                .append("remark" , getRemark())
-                .append("delFlag" , getDelFlag())
+                .append("userId", getUserId())
+                .append("userName", getUserName())
+                .append("password", getPassword())
+                .append("salt", getSalt())
+                .append("email", getEmail())
+                .append("phone", getPhone())
+                .append("sex", getSex())
+                .append("birthday", getBirthday())
+                .append("createTime", getCreateTime())
+                .append("createBy", getCreateBy())
+                .append("updateTime", getUpdateTime())
+                .append("updateBy", getUpdateBy())
+                .append("remark", getRemark())
+                .append("delFlag", getDelFlag())
                 .toString();
     }
 }

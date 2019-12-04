@@ -10,6 +10,7 @@ public class BaseEntity implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
+    private boolean needUpdate = true;
 
     @AOPField(dbField = "create_by", description = "创建者")
     private String createBy;
@@ -94,4 +95,11 @@ public class BaseEntity implements Serializable {
         this.delFlag = delFlag;
     }
 
+    public boolean isNeedUpdate() {
+        return needUpdate;
+    }
+
+    public void setNeedUpdate(boolean needUpdate) {
+        this.needUpdate = needUpdate;
+    }
 }

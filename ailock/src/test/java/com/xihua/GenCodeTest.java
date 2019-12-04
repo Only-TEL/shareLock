@@ -1,8 +1,6 @@
 package com.xihua;
 
-import com.xihua.bean.TableInfo;
 import com.xihua.config.GenCode;
-import com.xihua.mapper.GenMapper;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +16,12 @@ public class GenCodeTest {
 
     @Test
     public void genCodeTest(){
-        genCode.genCode("sys_user");
+        genCode.genCode("back_recod");
+//        System.out.println(userService.deleteByIds(1));
     }
+
+//    @Autowired
+//    private ISysUserService userService;
 
 
 }

@@ -2,6 +2,7 @@ package com.xihua.utils;
 
 import com.xihua.bean.ColumnInfo;
 import com.xihua.bean.TableInfo;
+import com.xihua.constants.Constants;
 
 import java.util.ArrayList;
 import java.util.List;

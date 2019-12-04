@@ -5,117 +5,142 @@
 <mapper namespace="com.xihua.mapper.SysUserMapper">
 
     <resultMap type="com.xihua.bean.SysUser" id="SysUserResult">
-        <result property="userId" column="user_id"/>
-        <result property="userName" column="user_name"/>
-        <result property="password" column="password"/>
-        <result property="email" column="email"/>
-        <result property="phone" column="phone"/>
-        <result property="sex" column="sex"/>
-        <result property="birthday" column="birthday"/>
-        <result property="createTime" column="create_time"/>
-        <result property="createBy" column="create_by"/>
-        <result property="updateTime" column="update_time"/>
-        <result property="updateBy" column="update_by"/>
-        <result property="remark" column="remark"/>
-        <result property="delFlag" column="del_flag"/>
-    </resultMap>
+            <result property="userId"    column="user_id"    />
+            <result property="userName"    column="user_name"    />
+            <result property="password"    column="password"    />
+            <result property="salt"    column="salt"    />
+            <result property="email"    column="email"    />
+            <result property="phone"    column="phone"    />
+            <result property="sex"    column="sex"    />
+            <result property="birthday"    column="birthday"    />
+            <result property="createTime"    column="create_time"    />
+            <result property="createBy"    column="create_by"    />
+            <result property="updateTime"    column="update_time"    />
+            <result property="updateBy"    column="update_by"    />
+            <result property="remark"    column="remark"    />
+            <result property="delFlag"    column="del_flag"    />
+        </resultMap>
 
     <sql id="selectSysUserVo">
-        select user_id, user_name, password, email, phone, sex, birthday, create_time, create_by, update_time, update_by, remark, del_flag from sys_user
+        select user_id, user_name, password, salt, email, phone, sex, birthday, create_time, create_by, update_time, update_by, remark, del_flag from sys_user
     </sql>
 
-    <select id="selectSysUserList" parameterType="com.xihua.bean.SysUser" resultMap="SysUserResult">
+    <select id="selectList" parameterType="com.xihua.bean.SysUser" resultMap="SysUserResult">
         <include refid="selectSysUserVo"/>
         <where>
-            <if test="userId != null  and userId != '' ">and user_id = #{userId}</if>
-            <if test="userName != null  and userName != '' ">and user_name = #{userName}</if>
-            <if test="password != null  and password != '' ">and password = #{password}</if>
-            <if test="email != null  and email != '' ">and email = #{email}</if>
-            <if test="phone != null  and phone != '' ">and phone = #{phone}</if>
-            <if test="sex != null  and sex != '' ">and sex = #{sex}</if>
-            <if test="birthday != null ">and birthday = #{birthday}</if>
-            <if test="createTime != null ">and create_time = #{createTime}</if>
-            <if test="createBy != null  and createBy != '' ">and create_by = #{createBy}</if>
-            <if test="updateTime != null ">and update_time = #{updateTime}</if>
-            <if test="updateBy != null  and updateBy != '' ">and update_by = #{updateBy}</if>
-            <if test="remark != null  and remark != '' ">and remark = #{remark}</if>
-            <if test="delFlag != null  and delFlag != '' ">and del_flag = #{delFlag}</if>
-            <if test="params.startTime != null and params.startTime != ''"><!-- 开始时间检索 -->
-                AND date_format(create_time,'%y%m%d') &gt;= date_format(#{params.startTime},'%y%m%d')
-            </if>
-            <if test="params.endTime != null and params.endTime != ''"><!-- 结束时间检索 -->
-                AND date_format(create_time,'%y%m%d') &lt;= date_format(#{params.endTime},'%y%m%d')
-            </if>
-        </where>
+            <if test="userId != null "> and user_id = #{userId}</if>
+                <if test="userName != null  and userName != '' "> and user_name = #{userName}</if>
+                <if test="password != null  and password != '' "> and password = #{password}</if>
+                <if test="salt != null  and salt != '' "> and salt = #{salt}</if>
+                <if test="email != null  and email != '' "> and email = #{email}</if>
+                <if test="phone != null  and phone != '' "> and phone = #{phone}</if>
+                <if test="sex != null  and sex != '' "> and sex = #{sex}</if>
+                <if test="birthday != null "> and birthday = #{birthday}</if>
+                <if test="createTime != null "> and create_time = #{createTime}</if>
+                <if test="createBy != null  and createBy != '' "> and create_by = #{createBy}</if>
+                <if test="updateTime != null "> and update_time = #{updateTime}</if>
+                <if test="updateBy != null  and updateBy != '' "> and update_by = #{updateBy}</if>
+                <if test="remark != null  and remark != '' "> and remark = #{remark}</if>
+                <if test="delFlag != null  and delFlag != '' "> and del_flag = #{delFlag}</if>
+            </where>
     </select>
 
-    <select id="selectSysUserById" parameterType="String" resultMap="SysUserResult">
+    <select id="selectById" parameterType="Integer" resultMap="SysUserResult">
         <include refid="selectSysUserVo"/>
         where user_id = #{userId}
     </select>
 
-    <insert id="insertSysUser" parameterType="com.xihua.bean.SysUser">
+    <insert id="insert" parameterType="com.xihua.bean.SysUser">
         insert into sys_user
         <trim prefix="(" suffix=")" suffixOverrides=",">
-            <if test="userId != null  and userId != ''  ">user_id,</if>
-            <if test="userName != null  and userName != ''  ">user_name,</if>
-            <if test="password != null  and password != ''  ">password,</if>
-            <if test="email != null  and email != ''  ">email,</if>
-            <if test="phone != null  and phone != ''  ">phone,</if>
-            <if test="sex != null  and sex != ''  ">sex,</if>
-            <if test="birthday != null  ">birthday,</if>
-            <if test="createTime != null  ">create_time,</if>
-            <if test="createBy != null  and createBy != ''  ">create_by,</if>
-            <if test="updateTime != null  ">update_time,</if>
-            <if test="updateBy != null  and updateBy != ''  ">update_by,</if>
-            <if test="remark != null  and remark != ''  ">remark,</if>
-            <if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
-        </trim>
+            <if test="userId != null  ">user_id,</if>
+                <if test="userName != null  and userName != ''  ">user_name,</if>
+                <if test="password != null  and password != ''  ">password,</if>
+                <if test="salt != null  and salt != ''  ">salt,</if>
+                <if test="email != null  and email != ''  ">email,</if>
+                <if test="phone != null  and phone != ''  ">phone,</if>
+                <if test="sex != null  and sex != ''  ">sex,</if>
+                <if test="birthday != null  ">birthday,</if>
+                <if test="createTime != null  ">create_time,</if>
+                <if test="createBy != null  and createBy != ''  ">create_by,</if>
+                <if test="updateTime != null  ">update_time,</if>
+                <if test="updateBy != null  and updateBy != ''  ">update_by,</if>
+                <if test="remark != null  and remark != ''  ">remark,</if>
+                <if test="delFlag != null  and delFlag != ''  ">del_flag,</if>
+            </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
-            <if test="userId != null  and userId != ''  ">#{userId},</if>
-            <if test="userName != null  and userName != ''  ">#{userName},</if>
-            <if test="password != null  and password != ''  ">#{password},</if>
-            <if test="email != null  and email != ''  ">#{email},</if>
-            <if test="phone != null  and phone != ''  ">#{phone},</if>
-            <if test="sex != null  and sex != ''  ">#{sex},</if>
-            <if test="birthday != null  ">#{birthday},</if>
-            <if test="createTime != null  ">#{createTime},</if>
-            <if test="createBy != null  and createBy != ''  ">#{createBy},</if>
-            <if test="updateTime != null  ">#{updateTime},</if>
-            <if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
-            <if test="remark != null  and remark != ''  ">#{remark},</if>
-            <if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
-        </trim>
-    </insert>
+            <if test="userId != null  ">#{userId},</if>
+                <if test="userName != null  and userName != ''  ">#{userName},</if>
+                <if test="password != null  and password != ''  ">#{password},</if>
+                <if test="salt != null  and salt != ''  ">#{salt},</if>
+                <if test="email != null  and email != ''  ">#{email},</if>
+                <if test="phone != null  and phone != ''  ">#{phone},</if>
+                <if test="sex != null  and sex != ''  ">#{sex},</if>
+                <if test="birthday != null  ">#{birthday},</if>
+                <if test="createTime != null  ">#{createTime},</if>
+                <if test="createBy != null  and createBy != ''  ">#{createBy},</if>
+                <if test="updateTime != null  ">#{updateTime},</if>
+                <if test="updateBy != null  and updateBy != ''  ">#{updateBy},</if>
+                <if test="remark != null  and remark != ''  ">#{remark},</if>
+                <if test="delFlag != null  and delFlag != ''  ">#{delFlag},</if>
+            </trim>
+        </insert>
 
-    <update id="updateSysUser" parameterType="com.xihua.bean.SysUser">
+    <update id="update" parameterType="com.xihua.bean.SysUser">
         update sys_user
         <trim prefix="SET" suffixOverrides=",">
             <if test="userName != null  and userName != ''  ">user_name = #{userName},</if>
-            <if test="password != null  and password != ''  ">password = #{password},</if>
-            <if test="email != null  and email != ''  ">email = #{email},</if>
-            <if test="phone != null  and phone != ''  ">phone = #{phone},</if>
-            <if test="sex != null  and sex != ''  ">sex = #{sex},</if>
-            <if test="birthday != null  ">birthday = #{birthday},</if>
-            <if test="createTime != null  ">create_time = #{createTime},</if>
-            <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
-            <if test="updateTime != null  ">update_time = #{updateTime},</if>
-            <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
-            <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
-            <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
-        </trim>
+                <if test="password != null  and password != ''  ">password = #{password},</if>
+                <if test="salt != null  and salt != ''  ">salt = #{salt},</if>
+                <if test="email != null  and email != ''  ">email = #{email},</if>
+                <if test="phone != null  and phone != ''  ">phone = #{phone},</if>
+                <if test="sex != null  and sex != ''  ">sex = #{sex},</if>
+                <if test="birthday != null  ">birthday = #{birthday},</if>
+                <if test="createTime != null  ">create_time = #{createTime},</if>
+                <if test="createBy != null  and createBy != ''  ">create_by = #{createBy},</if>
+                <if test="updateTime != null  ">update_time = #{updateTime},</if>
+                <if test="updateBy != null  and updateBy != ''  ">update_by = #{updateBy},</if>
+                <if test="remark != null  and remark != ''  ">remark = #{remark},</if>
+                <if test="delFlag != null  and delFlag != ''  ">del_flag = #{delFlag},</if>
+            </trim>
         where user_id = #{userId}
     </update>
 
-    <delete id="deleteSysUserById" parameterType="String">
-        delete from sys_user where user_id = #{userId}
-    </delete>
 
-    <delete id="deleteSysUserByIds" parameterType="Integer">
-        delete from sys_user where user_id in
+    <update id="deleteById" parameterType="Integer">
+        update   sys_user  set del_flag = '2'  where user_id = #{userId}
+    </update>
+
+    <update id="deleteByIds" parameterType="Integer">
+        update   sys_user   set del_flag = '2'  where user_id in
         <foreach item="userId" collection="array" open="(" separator="," close=")">
             #{userId}
         </foreach>
-    </delete>
+    </update>
+
+    <insert id="insertBatch">
+        insert into sys_user( user_id, user_name, password, salt, email, phone, sex, birthday, create_time, create_by, update_time, update_by, remark, del_flag) values
+        <foreach item="item" index="index" collection="list" separator=",">
+            ( #{item.userId}, #{item.userName}, #{item.password}, #{item.salt}, #{item.email}, #{item.phone}, #{item.sex}, #{item.birthday}, #{item.createTime}, #{item.createBy}, #{item.updateTime}, #{item.updateBy}, #{item.remark}, #{item.delFlag})
+        </foreach>
+    </insert>
+
+    <select id="selectUserByLoginName" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectSysUserVo"/>
+        where user_name = #{userName}
+    </select>
+
+    <select id="selectUserByPhoneNumber" parameterType="String" resultMap="SysUserResult">
+        <include refid="selectSysUserVo"/>
+        where phone = #{phone}
+    </select>
+
+    <select id="checkLoginNameUnique" parameterType="String" resultType="int">
+        select count(user_id) from sys_user where user_name=#{userName} and del_flag = '0'
+    </select>
+
+    <select id="checkPhoneUnique" parameterType="String" resultType="int">
+        select count(user_id) from sys_user where phone = #{phone} and del_flag = '0'
+    </select>
 
 </mapper>

@@ -1,13 +1,13 @@
 package ${package}.service.impl;
 
-import java.util.List;
-
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ${package}.mapper.${className}Mapper;
 import ${package}.bean.${className};
 import ${package}.service.I${className}Service;
-import com.xihua.annotation.SaveOrUpdate;
+import com.xihua.base.AbstractService;
+import com.xihua.utils.StringUtils;
 
 /**
  * ${tableComment} 服务层实现
@@ -16,76 +16,36 @@ import com.xihua.annotation.SaveOrUpdate;
  * @date ${datetime}
  */
 @Service
-public class ${className}ServiceImpl implements I${className}Service {
+public class ${className}ServiceImpl extends AbstractService<${className},${primaryKey.attrType}> implements I${className}Service {
+
     @Autowired
-    private ${className}Mapper ${classname}Mapper;
+    private ${className}Mapper ${objectName}Mapper;
 
-    /**
-     * 查询${tableComment}信息
-     *
-     * @param ${primaryKey.attrname} ${tableComment}ID
-     * @return ${tableComment}信息
-     */
-    @Override
-    public ${className} select${className}ById(${primaryKey.attrType} ${primaryKey.attrname}) {
-        return ${classname}Mapper.select${className}ById(${primaryKey.attrname});
-    }
+    @Autowired
+    private I${className}Service ${objectName}Service;
 
-    /**
-     * 查询${tableComment}列表
-     *
-     * @param ${classname} ${tableComment}信息
-     * @return ${tableComment}集合
-     */
-    @Override
-    public List<${className}> select${className}List(${className} ${classname}) {
-        return ${classname}Mapper.select${className}List(${classname});
+    @Autowired
+    public void setBaseMapper(){
+        super.setBaseMapper(${objectName}Mapper);
     }
 
     /**
      * 新增${tableComment}
-     *
-     * @param ${classname} ${tableComment}信息
+     * @param ${objectName} ${tableComment}信息
      * @return 结果
      */
     @Override
-    @SaveOrUpdate
-    public int insert${className}(${className} ${classname}) {
-        return ${classname}Mapper.insert${className}(${classname});
-    }
-
-    /**
-     * 修改${tableComment}
-     *
-     * @param ${classname} ${tableComment}信息
-     * @return 结果
-     */
-    @Override
-    @SaveOrUpdate
-    public int update${className}(${className} ${classname}) {
-        return ${classname}Mapper.update${className}(${classname});
-    }
-
-    /**
-     * 删除${tableComment}对象
-     *
-     * @param ${primaryKey.attrname} ${tableComment}ID
-     * @return 结果
-     */
-    @Override
-    public int delete${className}ById(${primaryKey.attrType} ${primaryKey.attrname}) {
-        return ${classname}Mapper.delete${className}ById(${primaryKey.attrname});
-    }
-
-    /**
-     * 批量删除${tableComment}对象
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    @Override
-    public int delete${className}ByIds(Integer[] ids) {
-        return ${classname}Mapper.delete${className}ByIds(ids);
+    @Transactional
+    public int saveOrUpdate${className}(${className} ${objectName}) {
+        //新记录标记
+        boolean isNewRecord = false;
+        if (StringUtils.isEmpty(${objectName}.get${primaryKey.attrName}())){
+            isNewRecord = true;
+                ${objectName}Service.insert(${objectName});
+        } else{
+                ${objectName}Service.update(${objectName});
+        }
+        return 1;
     }
 
 }

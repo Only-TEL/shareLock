@@ -2,6 +2,7 @@ package com.xihua.utils;
 
 import com.xihua.bean.ColumnInfo;
 import com.xihua.bean.TableInfo;
+import com.xihua.constants.Constants;
 import org.apache.velocity.VelocityContext;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -69,12 +70,14 @@ public class GenUtils {
         velocityContext.put("primaryKey" , table.getPrimaryKey());
         velocityContext.put("className" , table.getClassName());
         velocityContext.put("classname" , table.getClassname());
-        velocityContext.put("moduleName" , getModuleName(packageName));
+//        velocityContext.put("moduleName" , getModuleName(packageName));
+        velocityContext.put("moduleName" , "lock");
         velocityContext.put("columns" , table.getColumns());
         velocityContext.put("basePackage" , getBasePackage(packageName));
         velocityContext.put("package" , packageName);
         velocityContext.put("author" , Global.getAuthor());
-        velocityContext.put("datetime" , EncryptUtil.DateUtils.getDate());
+        velocityContext.put("datetime" , DateUtils.getDate());
+        velocityContext.put("objectName" , table.getClassname());
         return velocityContext;
     }
 

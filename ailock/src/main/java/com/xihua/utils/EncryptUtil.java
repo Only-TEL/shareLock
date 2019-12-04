@@ -1,27 +1,21 @@
 package com.xihua.utils;
 
-import com.alibaba.druid.sql.visitor.functions.Hex;
+import org.apache.commons.codec.binary.Hex;
+import org.apache.commons.codec.DecoderException;
 import org.apache.commons.lang3.Validate;
 import org.apache.commons.lang3.time.DateFormatUtils;
+import org.apache.tomcat.util.codec.binary.Base64;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.SecretKey;
-import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
-import java.lang.management.ManagementFactory;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.security.GeneralSecurityException;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 /**
  * 封装各种格式的编码解码工具类.
@@ -39,6 +33,65 @@ public class EncryptUtil {
     private static SecureRandom random = new SecureRandom();
     private static final Logger logger = LoggerFactory.getLogger(EncryptUtil.class);
 
+    /**
+     * Hex编码.
+     */
+    public static String encodeHex(byte[] input) {
+
+        return new String(Hex.encodeHex(input));
+    }
+
+    /**
+     * Hex解码.
+     */
+    public static byte[] decodeHex(String input) {
+        try {
+            return Hex.decodeHex(input.toCharArray());
+        } catch (DecoderException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+    /**
+     * Base64编码.
+     */
+    public static String encodeBase64(byte[] input) {
+        return new String(Base64.encodeBase64(input));
+    }
+
+    public static void main(String[] args) {
+        System.out.println(EncryptUtil.encodeBase64("1232412413"));
+    }
+
+    /**
+     * Base64编码.
+     */
+    public static String encodeBase64(String input) {
+        try {
+            return new String(Base64.encodeBase64(input.getBytes(DEFAULT_URL_ENCODING)));
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
+
+
+    /**
+     * Base64解码.
+     */
+    public static byte[] decodeBase64(String input) {
+        return Base64.decodeBase64(input.getBytes());
+    }
+
+    /**
+     * Base64解码.
+     */
+    public static String decodeBase64String(String input) {
+        try {
+            return new String(Base64.decodeBase64(input.getBytes()), DEFAULT_URL_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            return "";
+        }
+    }
 
     /**
      * URL 编码, Encode默认为UTF-8.
@@ -159,90 +212,4 @@ public class EncryptUtil {
         return null;
     }
 
-    public static class DateUtils extends org.apache.commons.lang3.time.DateUtils {
-
-        public static String YYYY = "yyyy";
-        public static String YYYY_MM = "yyyy-MM";
-        public static String YYYY_MM_DD = "yyyy-MM-dd";
-        public static String YYYYMMDDHHMMSS = "yyyyMMddHHmmss";
-        public static String YYYY_MM_DD_HH_MM_SS = "yyyy-MM-dd HH:mm:ss";
-        private static String[] parsePatterns = new String[]{"yyyy-MM-dd", "yyyy-MM-dd HH:mm:ss", "yyyy-MM-dd HH:mm", "yyyy-MM", "yyyy/MM/dd", "yyyy/MM/dd HH:mm:ss", "yyyy/MM/dd HH:mm", "yyyy/MM", "yyyy.MM.dd", "yyyy.MM.dd HH:mm:ss", "yyyy.MM.dd HH:mm", "yyyy.MM"};
-
-        public DateUtils() {
-        }
-
-        public static Date getNowDate() {
-            return new Date();
-        }
-
-        public static String getDate() {
-            return dateTimeNow(YYYY_MM_DD);
-        }
-
-        public static final String getTime() {
-            return dateTimeNow(YYYY_MM_DD_HH_MM_SS);
-        }
-
-        public static final String dateTimeNow() {
-            return dateTimeNow(YYYYMMDDHHMMSS);
-        }
-
-        public static final String dateTimeNow(String format) {
-            return parseDateToStr(format, new Date());
-        }
-
-        public static final String dateTime(Date date) {
-            return parseDateToStr(YYYY_MM_DD, date);
-        }
-
-        public static final String parseDateToStr(String format, Date date) {
-            return (new SimpleDateFormat(format)).format(date);
-        }
-
-        public static final Date dateTime(String format, String ts) {
-            try {
-                return (new SimpleDateFormat(format)).parse(ts);
-            } catch (ParseException var3) {
-                throw new RuntimeException(var3);
-            }
-        }
-
-        public static final String datePath() {
-            Date now = new Date();
-            return DateFormatUtils.format(now, "yyyy/MM/dd");
-        }
-
-        public static final String dateTime() {
-            Date now = new Date();
-            return DateFormatUtils.format(now, "yyyyMMdd");
-        }
-
-        public static Date parseDate(Object str) {
-            if (str == null) {
-                return null;
-            } else {
-                try {
-                    return DateUtils.parseDate(str.toString(), parsePatterns);
-                } catch (ParseException var2) {
-                    return null;
-                }
-            }
-        }
-
-        public static Date getServerStartDate() {
-            long time = ManagementFactory.getRuntimeMXBean().getStartTime();
-            return new Date(time);
-        }
-
-        public static String getDatePoor(Date endDate, Date nowDate) {
-            long nd = 86400000L;
-            long nh = 3600000L;
-            long nm = 60000L;
-            long diff = endDate.getTime() - nowDate.getTime();
-            long day = diff / nd;
-            long hour = diff % nd / nh;
-            long min = diff % nd % nh / nm;
-            return day + "天" + hour + "小时" + min + "分钟";
-        }
-    }
 }

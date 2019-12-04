@@ -1,5 +1,6 @@
 package com.xihua.utils;
 
+import com.xihua.bean.SysUser;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -29,6 +30,19 @@ public class ServletUtil {
         return getRequest().getSession();
     }
 
+    public static String getSessionId() {
+        return getRequest().getSession().getId();
+    }
+
+    public static SysUser getOnlineUser() {
+        HttpSession session = getSession();
+        return (SysUser) session.getAttribute(session.getId());
+    }
+
+    public static String getOnlineUserName() {
+        SysUser sysUser = getOnlineUser();
+        return sysUser.getUserName();
+    }
     public static ServletRequestAttributes getRequestAttributes() {
         RequestAttributes attributes = RequestContextHolder.getRequestAttributes();
         return (ServletRequestAttributes)attributes;

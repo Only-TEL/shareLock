@@ -1,8 +1,7 @@
 
 # 代码生成配置
 gen:
-  version: 1.0
-  localdir: D:/ideaPro/shareLock/ailock
+  localdir: D:/workspace/shareLock/ailock
   name: ailock
   packageName: com.xihua
   author: admin
@@ -29,3 +28,7 @@ server:
   port: 8080
   servlet:
     context-path: /
+
+# 系统版本
+ailock:
+  version: 1.0

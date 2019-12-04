@@ -1,5 +1,6 @@
 package com.xihua.utils;
 
+import com.xihua.constants.Constants;
 import org.apache.velocity.app.Velocity;
 
 import java.util.Properties;

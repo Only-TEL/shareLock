@@ -44,7 +44,7 @@ public class Global {
      * @return
      */
     public static String getVersion(){
-        return (String) StringUtils.nvl(getConfig("gen.version"), "1.0");
+        return (String) StringUtils.nvl(getConfig("ailock.version"), "1.0");
     }
 
     /**

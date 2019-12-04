@@ -2,60 +2,23 @@ package com.xihua.mapper;
 
 import com.xihua.bean.SysUser;
 import java.util.List;
+import com.xihua.base.BaseMapper;
+import org.apache.ibatis.annotations.Param;
 
 /**
  * 用户 数据层
  *
  * @author admin
- * @date 2019-12-03
+ * @date 2019-12-04
  */
-public interface SysUserMapper {
-    /**
-     * 查询用户信息
-     *
-     * @param userId 用户ID
-     * @return 用户信息
-     */
-    public SysUser selectSysUserById(String userId);
+public interface SysUserMapper extends BaseMapper<SysUser, Integer> {
 
-    /**
-     * 查询用户列表
-     *
-     * @param sysUser 用户信息
-     * @return 用户集合
-     */
-    public List<SysUser> selectSysUserList(SysUser sysUser);
+    SysUser selectUserByLoginName(@Param("userName") String userName);
 
-    /**
-     * 新增用户
-     *
-     * @param sysUser 用户信息
-     * @return 结果
-     */
-    public int insertSysUser(SysUser sysUser);
+    SysUser selectUserByPhoneNumber(@Param("phone") String phone);
 
-    /**
-     * 修改用户
-     *
-     * @param sysUser 用户信息
-     * @return 结果
-     */
-    public int updateSysUser(SysUser sysUser);
+    int checkLoginNameUnique(@Param("userName") String userName);
 
-    /**
-     * 删除用户
-     *
-     * @param userId 用户ID
-     * @return 结果
-     */
-    public int deleteSysUserById(String userId);
-
-    /**
-     * 批量删除用户
-     *
-     * @param userIds 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteSysUserByIds(Integer[] userIds);
+    int checkPhoneUnique(@Param("phone") String phone);
 
 }

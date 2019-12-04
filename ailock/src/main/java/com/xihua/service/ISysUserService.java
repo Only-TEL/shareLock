@@ -1,61 +1,33 @@
 package com.xihua.service;
 
 import com.xihua.bean.SysUser;
+import com.xihua.base.BaseService;
+
 import java.util.List;
 
 /**
  * 用户 服务层
  *
  * @author admin
- * @date 2019-12-03
+ * @date 2019-12-04
  */
-public interface ISysUserService {
-    /**
-     * 查询用户信息
-     *
-     * @param userId 用户ID
-     * @return 用户信息
-     */
-    public SysUser selectSysUserById(String userId);
+public interface ISysUserService extends BaseService<SysUser, Integer> {
 
-    /**
-     * 查询用户列表
-     *
-     * @param sysUser 用户信息
-     * @return 用户集合
-     */
-    public List<SysUser> selectSysUserList(SysUser sysUser);
+    // 保存或更新
+    public int saveOrUpdateSysUser(SysUser sysUser);
 
-    /**
-     * 新增用户
-     *
-     * @param sysUser 用户信息
-     * @return 结果
-     */
-    public int insertSysUser(SysUser sysUser);
+    // 注册
+    public boolean register(SysUser sysUser);
 
-    /**
-     * 修改用户
-     *
-     * @param sysUser 用户信息
-     * @return 结果
-     */
-    public int updateSysUser(SysUser sysUser);
+    // 登录
+    public SysUser login(String userName, String password);
 
-    /**
-     * 删除用户信息
-     *
-     * @param ids 需要删除的数据ID
-     * @return 结果
-     */
-    public int deleteSysUserByIds(Integer[] ids);
+    // 用户名登录
+    SysUser selectUserByLoginName(String userName);
 
+    // 手机号登录
+    SysUser selectUserByPhoneNumber(String phone);
 
-    /**
-     * 删除用户
-     *
-     * @param userId 用户ID
-     * @return 结果
-     */
-    public int deleteSysUserById(String userId);
+    // 验证密码
+    boolean validate(SysUser sysUser, String password);
 }

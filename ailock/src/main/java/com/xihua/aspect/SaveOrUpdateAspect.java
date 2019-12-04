@@ -1,6 +1,8 @@
 package com.xihua.aspect;
 
 import com.xihua.base.BaseEntity;
+import com.xihua.bean.SysUser;
+import com.xihua.utils.ServletUtil;
 import com.xihua.utils.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
@@ -34,22 +36,59 @@ public class SaveOrUpdateAspect {
      */
     @Before("saveOrUpdatePointCut()")
     public void doBefore(JoinPoint point) {
-        System.out.println("do before");
+        // 获取操作对象
+        SysUser currentUser = null;
+        try {
+            currentUser = ServletUtil.getOnlineUser();
+            if (currentUser == null) {
+                currentUser = new SysUser();
+                currentUser.setUserName("anonymous");
+            }
+        } catch (Exception ex) {
+            currentUser = new SysUser();
+            currentUser.setUserName("anonymous");
+        }
+        // 获取参数
+        Object[] args = point.getArgs();
+        Date now = new Date();
+        for (int i = 0, len = args.length; i < len; i++) {
+            Object arg = args[i];
+            // 判断参数类型
+            if (arg instanceof BaseEntity) {
+                BaseEntity baseEntity = (BaseEntity) arg;
+                // 设置属性
+                this.setSaveOrUpdateInfo(baseEntity, currentUser.getUserName(), now);
+            }
+            if (arg instanceof Collection) {
+                Collection c = (Collection) arg;
+                if (c != null) {
+                    Iterator it = c.iterator();
+                    while (it.hasNext()) {
+                        Object next = it.next();
+                        if (next instanceof BaseEntity) {
+                            BaseEntity baseEntity = (BaseEntity) next;
+                            this.setSaveOrUpdateInfo(baseEntity, currentUser.getUserName(), now);
+                        } else {
+                            break;
+                        }
+                    }
+                }
+            }
+        }
     }
-
 
 
     /**
      * 为BaseEntity对象设置切面值
      * @param baseEntity
      */
-    private void setSaveOrUpdateInfo(BaseEntity baseEntity) {
-        Date now = new Date();
+    private void setSaveOrUpdateInfo(BaseEntity baseEntity, String userName,Date now) {
+
         if (StringUtils.isEmpty(baseEntity.getCreateBy())) {
             baseEntity.setCreateTime(now);
-//            baseEntity.setCreateBy();
+            baseEntity.setCreateBy(userName);
         }
-        //baseEntity.setUpdateBy();
+        baseEntity.setUpdateBy(userName);
         baseEntity.setUpdateTime(now);
     }
 
