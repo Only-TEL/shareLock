@@ -5,6 +5,14 @@ import org.apache.commons.lang3.time.DateFormatUtils;
 import java.lang.management.ManagementFactory;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.temporal.ChronoUnit;
+import java.time.temporal.TemporalAccessor;
+import java.time.temporal.TemporalUnit;
+import java.util.Calendar;
 import java.util.Date;
 
 public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
@@ -82,26 +90,60 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         return new Date(time);
     }
 
-    public static String getDatePoor(Date endDate, Date nowDate) {
-        long nd = 86400000L;
-        long nh = 3600000L;
-        long nm = 60000L;
-        long diff = endDate.getTime() - nowDate.getTime();
-        long day = diff / nd;
-        long hour = diff % nd / nh;
-        long min = diff % nd % nh / nm;
-        return day + "天" + hour + "小时" + min + "分钟";
+
+    public static LocalDateTime date2LocalDateTime(Date date, ZoneId zoneId) {
+        return LocalDateTime.ofInstant(date.toInstant(), zoneId);
     }
 
-    public static long getHalfHour(Date endDate, Date nowDate) {
-        long nd = 86400000L;
-        long nh = 3600000L;
-        long nm = 60000L;
-        long diff = endDate.getTime() - nowDate.getTime();
-        long day = diff / nd;
-        long hour = diff % nd / nh;
-        long min = diff % nd % nh / nm >= 30 ? 1 : 0;
-        // 多少个半小时
-        return day * 24 * 2 + hour * 2 + min;
+    public static LocalDateTime date2LocalDateTime(Date date) {
+        ZoneId zoneId = ZoneId.systemDefault();
+        return LocalDateTime.ofInstant(date.toInstant(), zoneId);
     }
+
+    public static Duration calculateDuration(Date startDate, Date endDate) {
+        return Duration.between(date2LocalDateTime(startDate), date2LocalDateTime(endDate));
+    }
+
+    public static String getDatePoor(Date startDate, Date endDate) {
+        Duration duration = calculateDuration(startDate, endDate);
+        StringBuilder builder = new StringBuilder();
+        long days = duration.toDays();
+        if (days > 0) {
+            builder.append(days + "天");
+        }
+        long hours = duration.minusDays(days).toHours();
+        if (hours > 0) {
+            builder.append(hours + "小时");
+        }
+        long minutes = duration.minusDays(days).minusHours(hours).toMinutes();
+        if (minutes > 0) {
+            builder.append(minutes + "分钟");
+        }
+        long senconds = duration.minusDays(days).minusHours(hours).minusMinutes(minutes).getSeconds();
+        if (senconds > 0) {
+            builder.append(senconds + "秒");
+        }
+        return builder.toString();
+    }
+
+
+    /**
+     * 计算多少个半小时
+     *
+     * @param startDate
+     * @param endDate
+     * @return
+     */
+    public static long getHalfHour(Date startDate, Date endDate) {
+        Duration duration = calculateDuration(startDate, endDate);
+        long hours = duration.toHours();
+        long minutes = duration.minusHours(hours).toMinutes();
+        long result = 0;
+        if (minutes >= 30) {
+            result += 1;
+        }
+        return result + hours * 2;
+    }
+
+
 }
