@@ -1,6 +1,7 @@
 package com.xihua.utils;
 
 import com.xihua.bean.SysUser;
+import io.swagger.models.auth.In;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -37,6 +38,10 @@ public class ServletUtil {
     public static SysUser getOnlineUser() {
         HttpSession session = getSession();
         return (SysUser) session.getAttribute(session.getId());
+    }
+
+    public static Integer getOnlineUserId() {
+        return getOnlineUser().getUserId();
     }
 
     public static String getOnlineUserName() {

@@ -27,8 +27,8 @@ public class RequestUrlIntercepter extends HandlerInterceptorAdapter {
             return true;
         }
         // 暂时打开
-        return true;
+//        return true;
         // TODO 跳转到登陆页面
-        //throw new BusinessException("请登录...");
+        throw new BusinessException("请登录...");
     }
 }

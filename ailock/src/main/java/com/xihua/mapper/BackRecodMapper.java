@@ -15,4 +15,10 @@ public interface BackRecodMapper extends BaseMapper<BackRecod, Integer> {
 
 
     BackRecod selectByRunningRecord(@Param("userId") Integer userId,@Param("backId") String backId);
+
+    List<BackRecod> selectAllStopRecord(@Param("userId") Integer userId);
+
+    BackRecod selectSingleRunningRecord(@Param("userId") Integer userId);
+
+    BackRecod selectSingleRunningRecordByBack(@Param("backId") String backId);
 }

@@ -137,4 +137,20 @@
         <include refid="selectBackRecodVo"/>
         where user_id=#{userId} and back_id=#{backId} and status='0'
     </select>
+
+    <select id="selectSingleRunningRecord" parameterType="Integer" resultMap="BackRecodResult">
+        <include refid="selectBackRecodVo"/>
+        where user_id=#{userId} and status='0'
+    </select>
+
+    <select id="selectSingleRunningRecordByBack" parameterType="String" resultMap="BackRecodResult">
+        <include refid="selectBackRecodVo"/>
+        where back_id=#{backId} and status='0'
+    </select>
+
+    <select id="selectAllStopRecord" parameterType="Integer" resultMap="BackRecodResult">
+        <include refid="selectBackRecodVo"/>
+        where user_id=#{userId} and status='1'
+        order by create_by desc
+    </select>
 </mapper>

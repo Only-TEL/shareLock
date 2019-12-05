@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 public class Constants {
 
     public static final String UTF8 = "UTF-8";
+
     public static String AUTO_REOMVE_PRE = "true";
 
     /* 密码加密设置默认的循环数 **/
@@ -18,11 +19,26 @@ public class Constants {
     /** springboot 生成的sessionId*/
     public static final String DEFAULT_COOKIE_NAME = "JSESSIONID";
 
-    /** 自定义单价 单位角  一小时1块 */
-    public static final int PRICE_OF_HOUR = 10;
+    /** 自定义单价 单位角  半小时5毛 */
+    public static final int PRICE_OF_HOUR = 5;
 
     /**定义cookie的有效时间*/
     public static final int COOKIE_MAX_AGE = 1800;
+
+    /** 定义验证码的长度 */
+    public static final int CAPTCHA_LENGTH = 4;
+
+    /** 验证码的有效期 10 min 10*60*1000 */
+    public static final long CAPTCHA_MAX_AGE = 600000;
+
+    /** TCP开车信号标识 */
+    public static final String STOP_PREFIX = "STOP";
+
+    /** TCP停车信号标识 */
+    public static final String OPEN_PREFIX = "OPEN";
+
+    /** TCP绑定标识 */
+    public static final String BIND_PREFIX = "BIND";
 
     /*匹配手机号*/
     public static final Pattern PHONE_REGX = Pattern.compile("^(0|86|17951)?(13[0-9]|15[012356789]|166|17[3678]|18[0-9]|14[57])[0-9]{8}$");

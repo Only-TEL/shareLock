@@ -22,4 +22,16 @@ public interface IBackRecodService extends BaseService<BackRecod, Integer> {
 
     // 生成开锁记录
     int buildOpenRecord(BackRecod openRecod, SysUser sysUser);
+
+    // 还车操作
+    void reBack(String backId);
+
+    // 查询存在的已开锁记录
+    BackRecod selectByRunningRecord(Integer userId);
+
+    // 查询开锁历史
+    List<BackRecod> selectAllStopRecord(Integer userId);
+
+    // 查询存在的已开锁记录
+    BackRecod selectByRunningRecord(String backId);
 }

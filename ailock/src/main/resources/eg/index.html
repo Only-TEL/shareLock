@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>index</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<form class="layui-form">
+    <div class="layui-form-item">
+        <label class="layui-form-label">输入框</label>
+        <div class="layui-input-block">
+            <input type="text" name="title" id='title' required lay-verify="required" placeholder="请输入编号"
+                   autocomplete="off" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn" lay-submit lay-filter="formDemo">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+</body>
+<script src="jquery.js"></script>
+<script src="/layui/layui.js"></script>
+<script>
+    layui.use('form', function () {
+        var form = layui.form;
+        // 提交开锁请求
+        form.on('submit(formDemo)', function (data) {
+            $.post("/run/" + $("#title").val(), function (result) {
+                console.log(result);
+                // 开锁成功，跳转到信息显示页面，该页面自动请求后台获取正在运行的单车数据
+                window.location.href = '/toinfo';
+            });
+            return false;
+        });
+    });
+</script>
+</html>

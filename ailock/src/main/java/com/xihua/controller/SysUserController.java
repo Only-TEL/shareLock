@@ -69,7 +69,7 @@ public class SysUserController extends BaseController {
             String sessionId = session.getId();
             session.setAttribute(sessionId, onlineUser);
             //  将sessionId加密写入浏览器 cookie
-           // System.out.println("oldSessionId=" + sessionId);
+            // System.out.println("oldSessionId=" + sessionId);
 //            String newSessionId = EncryptUtil.encodeBase64(sessionId);
 //            CookieUtils.setCookie(ServletUtil.getRequest(), ServletUtil.getResponse(),
 //                    Constants.COOKIE_NAME, newSessionId, Constants.COOKIE_MAX_AGE, Constants.UTF8);
@@ -87,17 +87,20 @@ public class SysUserController extends BaseController {
     @PostMapping("/plogin")
     public AjaxResult pLogin(@RequestBody String jsonStr) {
         SysUser loginUser = (SysUser) tranObject(jsonStr, SysUser.class);
-        if(StringUtils.isEmpty(loginUser.getCaptcha())){
+        if (StringUtils.isEmpty(loginUser.getCaptcha())) {
             throw new BusinessException("请输入验证码");
         }
         SysUser sysUser = sysUserService.selectUserByPhoneNumber(loginUser.getPhone());
-        // 从redis中取验证码，过期返回重新获取验证码
-        Object value = redisTemplate.opsForValue().get(sysUser.getUserId());
-        if(StringUtils.isEmpty(value)){
-           throw new BusinessException("验证码已过期，请重新获取验证码");
+        if (StringUtils.isEmpty(sysUser)) {
+            throw new BusinessException("请输入正确的手机号码");
+        }
+        // 从session中取验证码
+        String value = (String) ServletUtil.getSession().getAttribute(loginUser.getPhone());
+        if (StringUtils.isEmpty(value) || checkCaptcha(value)) {
+            throw new BusinessException("验证码已过期，请重新获取验证码");
         }
         // 判断验证码是否一致
-        if(!value.equals(loginUser.getCaptcha())){
+        if (!value.substring(0, Constants.CAPTCHA_LENGTH + 1).equals(loginUser.getCaptcha())) {
             return AjaxResult.error("验证码错误，请重试");
         }
         return AjaxResult.success();
@@ -115,8 +118,15 @@ public class SysUserController extends BaseController {
             return AjaxResult.error("请输入正确的手机号码");
         }
         String captcha = ZCommonUtils.buildCaptcha();
-        // 存储在redis中10分钟 key=userId value=captcha
-        redisTemplate.opsForValue().set(sysUser.getUserId(),captcha,10, TimeUnit.MINUTES);
+        // 存储验证码+时间戳
+        ServletUtil.getSession().setAttribute(phone, captcha + System.currentTimeMillis());
         return AjaxResult.success(captcha);
+    }
+
+    private boolean checkCaptcha(String value) {
+        long now = System.currentTimeMillis();
+        String startStr = value.substring(Constants.CAPTCHA_LENGTH);
+        long endMills = Long.valueOf(startStr) + Constants.CAPTCHA_MAX_AGE;
+        return now > endMills ? false : true;
     }
 }

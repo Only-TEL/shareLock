@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>info</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+</head>
+<body>
+<h3>back is running....</h3>
+</body>
+<script src="/jquery.js"></script>
+<script src="/layui/layui.js"></script>
+<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script src="app.js"></script>
+<script>
+    $(function () {
+        console.log("展示运行中的单车信息");
+        $.get('/info', function (result) {
+            // 返回单车的id
+            console.log("展示运行中的单车信息");
+        });
+        let backId = '14141321231';
+        // 连接ws，订阅消息
+        var socket = new SockJS('/xihua');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            //订阅
+            stompClient.subscribe('/stop/back/' + backId, function (data) {
+                console.log("data=" + data);
+                processData(data.body);
+            });
+        });
+    });
+    function processData(data) {
+        if(isEmpty(data) || data == 'error'){
+            alert("关锁失败");
+        }else if(data == 'success'){
+            alert("关锁成功");
+        }
+    }
+    // 判断一个字符串是否为空串
+    function isEmpty(value) {
+        if (value == null || this.trim(value) == "") {
+            return true;
+        }
+        return false;
+    }
+    // 判断一个字符串是否为非空串
+    function isNotEmpty(value) {
+        return !isEmpty(value);
+    }
+</script>
+</html>

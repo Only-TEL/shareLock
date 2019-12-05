@@ -9,7 +9,7 @@ public class ZCommonUtils {
     // 生成4为随机验证码
     public static String buildCaptcha() {
         String captcha = new String();
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < Constants.CAPTCHA_LENGTH; i++) {
             char ch = Constants.CAPTCHA_SEQUENCE[new Random().nextInt(Constants.CAPTCHA_SEQUENCE.length)];
             captcha += ch;
         }

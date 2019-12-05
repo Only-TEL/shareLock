@@ -92,4 +92,16 @@ public class DateUtils extends org.apache.commons.lang3.time.DateUtils {
         long min = diff % nd % nh / nm;
         return day + "天" + hour + "小时" + min + "分钟";
     }
+
+    public static long getHalfHour(Date endDate, Date nowDate) {
+        long nd = 86400000L;
+        long nh = 3600000L;
+        long nm = 60000L;
+        long diff = endDate.getTime() - nowDate.getTime();
+        long day = diff / nd;
+        long hour = diff % nd / nh;
+        long min = diff % nd % nh / nm >= 30 ? 1 : 0;
+        // 多少个半小时
+        return day * 24 * 2 + hour * 2 + min;
+    }
 }
