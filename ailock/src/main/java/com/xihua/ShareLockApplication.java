@@ -1,6 +1,6 @@
 package com.xihua;
 
-import com.xihua.server.LockSocketServer;
+import com.xihua.server.old.LockSocketServer;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

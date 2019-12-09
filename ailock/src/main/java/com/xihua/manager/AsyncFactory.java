@@ -1,7 +1,7 @@
 package com.xihua.manager;
 
 
-import com.xihua.server.LockSocketServer;
+import com.xihua.server.old.LockSocketServer;
 import com.xihua.service.IBackRecodService;
 import com.xihua.utils.SpringUtils;
 

@@ -2,6 +2,8 @@ package com.xihua.utils;
 
 import com.xihua.constants.Constants;
 
+import java.nio.ByteBuffer;
+import java.nio.charset.Charset;
 import java.util.Random;
 
 public class ZCommonUtils {
@@ -19,5 +21,15 @@ public class ZCommonUtils {
     public static String randomSalt() {
         byte[] salt = EncryptUtil.generateSalt(Constants.SALT_SIZE);
         return EncryptUtil.encodeHex(salt);
+    }
+
+    // buffer转String
+    public static String buildString(ByteBuffer buffer, Charset charset) {
+        int ps = buffer.position();
+        byte[] bs = new byte[ps];
+        for (int i = 0; i < ps; i++) {
+            bs[i] = buffer.get(i);
+        }
+        return new String(bs, charset);
     }
 }

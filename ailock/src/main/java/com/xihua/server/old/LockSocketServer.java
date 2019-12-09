@@ -1,4 +1,4 @@
-package com.xihua.server;
+package com.xihua.server.old;
 
 import com.xihua.constants.Constants;
 import com.xihua.manager.AsyncFactory;
@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LockSocketServer {
 
     // 解码buffer
-    private Charset cs = Charset.forName("ASCII");
+    private Charset charset = Charset.forName("ASCII");
     // 接受数据缓冲区
     private static ByteBuffer sBuffer = ByteBuffer.allocate(1024);
     // 发送数据缓冲区
@@ -35,7 +35,7 @@ public class LockSocketServer {
     // 还车阻塞队列
     public static ArrayBlockingQueue<String> backQueue = new ArrayBlockingQueue<>(40);
     // 打日志
-    private static Logger log = LoggerFactory.getLogger(LockSocketServer.class);
+    private static Logger LOG = LoggerFactory.getLogger(LockSocketServer.class);
     // 缓存channel
     public static ConcurrentHashMap<String, SocketChannel> channelCache = new ConcurrentHashMap<>();
 
@@ -59,7 +59,7 @@ public class LockSocketServer {
             // 将通信信道注册到监听器
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
             // 监听器会一直监听，如果客户端有请求就会进入相应的事件处理
-            System.out.println("Socket server 启动完成");
+            LOG.info("Socket server 启动完成");
             while (true) {
                 // select方法会一直阻塞直到有相关事件发生或超时
                 selector.select();
@@ -95,9 +95,9 @@ public class LockSocketServer {
             // 读取数据
             if (count > 0) {
                 rBuffer.flip();
-                requestMsg = String.valueOf(cs.decode(rBuffer).array());
+                requestMsg = String.valueOf(charset.decode(rBuffer).array());
             }
-            log.info("Received message from client: " + requestMsg);
+            LOG.info("Received message from client: " + requestMsg);
             // 判断是不是关锁信号 -> 接受关锁信号  -> 异步关锁backid
             if (requestMsg.startsWith(Constants.STOP_PREFIX)) {
                 String backId = requestMsg.substring(Constants.STOP_PREFIX.length());
@@ -112,7 +112,7 @@ public class LockSocketServer {
                 String backId = requestMsg.substring(Constants.BIND_PREFIX.length());
                 SocketChannel value = channelCache.putIfAbsent(backId, socketChannel);
                 if (value == null) {
-                    log.info("将编号：{}单车加入缓存", backId);
+                    LOG.info("将编号：{}单车加入缓存", backId);
                 }
             }
             socketChannel.close();
@@ -124,12 +124,12 @@ public class LockSocketServer {
             if (backId != null && channelCache.containsKey(backId)) {
                 SocketChannel backChannel = channelCache.get(backId);
                 backId += Constants.OPEN_PREFIX + backId;
-                log.info("send messge to client: {}", backId);
+                LOG.info("send messge to client: {}", backId);
                 sBuffer = ByteBuffer.allocate(backId.getBytes("ASCII").length);
                 sBuffer.flip();
                 backChannel.write(sBuffer);
             } else if (backId != null) {
-                log.error("放弃向编号为{}发送开锁信号", backId);
+                LOG.error("放弃向编号为{}发送开锁信号", backId);
             }
             socketChannel.close();
         }

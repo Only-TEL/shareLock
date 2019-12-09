@@ -21,8 +21,6 @@ import java.util.Iterator;
 @Aspect
 public class SaveOrUpdateAspect {
 
-    private static final Logger log = LoggerFactory.getLogger(SaveOrUpdateAspect.class);
-
     public SaveOrUpdateAspect() {
     }
 
@@ -76,7 +74,6 @@ public class SaveOrUpdateAspect {
             }
         }
     }
-
 
     /**
      * 为BaseEntity对象设置切面值
