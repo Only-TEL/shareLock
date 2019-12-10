@@ -1,6 +1,7 @@
 package com.xihua.utils;
 
 import com.xihua.constants.Constants;
+import io.netty.buffer.ByteBuf;
 
 import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
@@ -17,6 +18,7 @@ public class ZCommonUtils {
         }
         return captcha;
     }
+
     // 生成随机盐
     public static String randomSalt() {
         byte[] salt = EncryptUtil.generateSalt(Constants.SALT_SIZE);
@@ -31,5 +33,15 @@ public class ZCommonUtils {
             bs[i] = buffer.get(i);
         }
         return new String(bs, charset);
+    }
+
+    public static String decode2String(ByteBuf buf, byte[] bytes, Charset charset) {
+        buf.readBytes(bytes);
+        return new String(bytes, charset);
+    }
+
+    public static int decode2Int(ByteBuf buf, byte[] bytes, Charset charset) {
+        buf.readBytes(bytes);
+        return Integer.parseInt(new String(bytes, charset));
     }
 }

@@ -1,12 +1,10 @@
-package com.xihua.server.framework;
+package com.xihua.server.nio;
 
 
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.util.HashMap;
-import java.util.Map;
 
 
 public abstract class ServerCnxn {

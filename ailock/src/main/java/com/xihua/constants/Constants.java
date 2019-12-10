@@ -1,5 +1,6 @@
 package com.xihua.constants;
 
+import java.nio.ByteBuffer;
 import java.nio.charset.Charset;
 import java.util.regex.Pattern;
 
@@ -13,6 +14,9 @@ public class Constants {
 
     /* 密码加密设置默认的循环数 **/
     public static final int DEFAULT_ITERATIONS = 1024;
+
+    /** 4为读取一次 */
+    public static final byte[] READ_UNIT = new byte[4];
     /**
      * 密码加密的salt长度
      */
@@ -49,20 +53,32 @@ public class Constants {
     public static final long CAPTCHA_MAX_AGE = 600000;
 
     /**
-     * TCP开车信号标识
+     * TCP停车信号标识
      */
-    public static final String STOP_PREFIX = "STOP";
+    public static final String STOP_PREFIX = "stop";
 
     /**
      * TCP停车信号标识
      */
-    public static final String OPEN_PREFIX = "OPEN";
+    public static final String OPEN_PREFIX = "open";
 
     /**
      * TCP绑定标识
      */
-    public static final String BIND_PREFIX = "BIND";
+    public static final String BIND_PREFIX = "bind";
+    /**
+     * TCP通信标识
+     */
+    public static final String PING_PREFIX = "ping";
 
+    /**
+     * TCP通信标识
+     */
+    public static final String OK_PREFIX = "okxx";
+    /**
+     * TCP通信标识
+     */
+    public static final String FAIL_PREFIX = "fail";
     /**
      * 默认的时刻单位 ms
      */

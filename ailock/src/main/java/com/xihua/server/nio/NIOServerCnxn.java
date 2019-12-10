@@ -1,7 +1,6 @@
-package com.xihua.server.framework;
+package com.xihua.server.nio;
 
 import com.xihua.constants.Constants;
-import com.xihua.utils.ZCommonUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +11,6 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.SocketChannel;
-import java.nio.charset.Charset;
 import java.util.concurrent.LinkedBlockingQueue;
 
 
@@ -245,11 +243,11 @@ public class NIOServerCnxn extends ServerCnxn {
 
     private boolean processMsg(String requestMsg) {
         // 开启线程处理cmd
-        if (requestMsg.toUpperCase().startsWith(Constants.OPEN_PREFIX)) {
+        if (requestMsg.startsWith(Constants.OPEN_PREFIX)) {
             OpenCommand openCommand = new OpenCommand(requestMsg.substring(Constants.OPEN_PREFIX.length()));
             openCommand.start();
             return true;
-        } else if (requestMsg.toUpperCase().startsWith(Constants.STOP_PREFIX)) {
+        } else if (requestMsg.startsWith(Constants.STOP_PREFIX)) {
             StopCommand stopCommand = new StopCommand(requestMsg.substring(Constants.STOP_PREFIX.length()));
             stopCommand.start();
             return true;
