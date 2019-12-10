@@ -14,7 +14,7 @@ import java.util.List;
 public class LockDecoder extends ByteToMessageDecoder {
 
     @Override
-    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) throws Exception {
+    protected void decode(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List<Object> list) {
         // 前4位是type
         int typeInt = byteBuf.readInt();
         if (!OpcType.isKownType(typeInt)) {

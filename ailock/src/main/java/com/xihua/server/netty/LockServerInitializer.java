@@ -35,12 +35,12 @@ public class LockServerInitializer extends ChannelInitializer<SocketChannel> {
         // 8kb
         // ByteBuf delimiter = Unpooled.copiedBuffer("_$_".getBytes());
         // pipeline.addLast("framer", new DelimiterBasedFrameDecoder(8192, delimiter));
-        // 协议的解码和编码器
+        // 自定义协议的解码和编码器
         pipeline.addLast("decoder", new LockDecoder());
         pipeline.addLast("encoder", new LockEncoder());
-        // 自定义的Handler
+        // 自定义的Handler，处理请求
         pipeline.addLast("handler", nettyServerHandler);
-        LOG.info(" {} initChannel remote ip: {}", Thread.currentThread().getName(), socketChannel.remoteAddress());
+        LOG.info(" {} init channel remote ip: {}", Thread.currentThread().getName(), socketChannel.remoteAddress());
     }
 
 

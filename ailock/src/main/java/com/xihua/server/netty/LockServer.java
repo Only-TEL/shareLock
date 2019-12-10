@@ -20,11 +20,14 @@ import java.util.concurrent.ConcurrentHashMap;
 public class LockServer {
 
     private static final Logger LOG = LoggerFactory.getLogger(LockServer.class);
-
+    /**boss线程组*/
     private final EventLoopGroup bossGroup = new NioEventLoopGroup();
+    /**work线程组*/
     private final EventLoopGroup workerGroup = new NioEventLoopGroup();
     private Channel channel;
+    /**缓存 channelId -> Channel*/
     public static ConcurrentHashMap<String, Channel> channelMap = new ConcurrentHashMap<>();
+    /**缓存 backId channelId*/
     public static ConcurrentHashMap<String, String> backMap = new ConcurrentHashMap<>();
 
     @Autowired
@@ -33,7 +36,7 @@ public class LockServer {
     public ChannelFuture start(String hostname, int port) throws Exception {
         ChannelFuture future = null;
         try {
-            //ServerBootstrap负责初始化netty服务器，并且开始监听端口的socket请求
+            // ServerBootstrap负责初始化netty服务器，并且开始监听端口的socket请求
             ServerBootstrap bootstrap = new ServerBootstrap();
             bootstrap.group(bossGroup, workerGroup)
                     .channel(NioServerSocketChannel.class)
@@ -42,7 +45,7 @@ public class LockServer {
             // start
             future = bootstrap.bind().sync();
             channel = future.channel();
-            LOG.info("======LockServer启动成功!!!=========");
+            LOG.info("====== LockServer启动成功 =========");
         } catch (Exception e) {
             e.printStackTrace();
         } finally {

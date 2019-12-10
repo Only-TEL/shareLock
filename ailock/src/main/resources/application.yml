@@ -31,3 +31,5 @@ server:
 # 系统版本
 ailock:
   version: 1.0
+  port: 9000
+  hostname: 127.0.0.1

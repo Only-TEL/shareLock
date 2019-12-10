@@ -22,7 +22,7 @@ public class LockServerHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         String channelText = ctx.channel().id().asLongText();
-        LOG.info("持久化channel  key : {}", channelText);
+        LOG.info("持久化Channel  key : {}", channelText);
         LockServer.channelMap.put(channelText, ctx.channel());
         super.channelActive(ctx);
     }
@@ -46,7 +46,7 @@ public class LockServerHandler extends ChannelInboundHandlerAdapter {
             LockServer.backMap.put(backId, channelId);
         }
         LockMessage result = LockMessage.success(backId);
-        // 会写返回消息
+        // 回写返回消息
         ctx.write(result);
     }
 
