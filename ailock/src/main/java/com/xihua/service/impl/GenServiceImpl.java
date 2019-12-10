@@ -27,7 +27,7 @@ public class GenServiceImpl implements IGenService {
     private GenMapper genMapper;
 
     /**
-     * 查询spro数据库表信息
+     * 查询数据库表信息
      *
      * @param tableInfo 表信息
      * @return 数据库表列表

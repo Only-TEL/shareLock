@@ -12,7 +12,7 @@ import java.util.Map;
 /**
  * 代码生成器 工具类
  *
- * @author spro
+ * @author admin
  */
 public class GenUtils {
     /**
