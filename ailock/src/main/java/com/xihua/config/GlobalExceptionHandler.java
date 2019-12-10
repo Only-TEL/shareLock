@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 @RestControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GlobalExceptionHandler.class);
 
     public GlobalExceptionHandler(){
 
@@ -23,25 +23,25 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler({HttpRequestMethodNotSupportedException.class})
     public AjaxResult handleException(HttpRequestMethodNotSupportedException e) {
-        log.error(e.getMessage(), e);
+        LOG.error(e.getMessage(), e);
         return AjaxResult.error("不支持' " + e.getMethod() + "'请求");
     }
 
     @ExceptionHandler({RuntimeException.class})
     public AjaxResult notFount(RuntimeException e) {
-        log.error("运行时异常:", e);
+        LOG.error("运行时异常:", e);
         return AjaxResult.error("运行时异常:" + e.getMessage());
     }
 
     @ExceptionHandler({Exception.class})
     public AjaxResult handleException(Exception e) {
-        log.error(e.getMessage(), e);
+        LOG.error(e.getMessage(), e);
         return AjaxResult.error("服务器错误，请联系管理员");
     }
 
     @ExceptionHandler({BusinessException.class})
     public Object businessException(HttpServletRequest request, BusinessException e) {
-        log.error(e.getMessage(), e);
+        LOG.error(e.getMessage(), e);
         if (ServletUtil.isAjaxRequest(request)) {
             return AjaxResult.error(e.getMessage());
         } else {

@@ -8,9 +8,7 @@ public class Constants {
 
     public static final String UTF8 = "UTF-8";
 
-    public static final Charset ASCII_CHARSET = Charset.forName("ASCII");
-    
-    public static String AUTO_REOMVE_PRE = "true";
+    public static final String AUTO_REOMVE_PRE = "true";
 
     /* 密码加密设置默认的循环数 **/
     public static final int DEFAULT_ITERATIONS = 1024;
@@ -110,13 +108,4 @@ public class Constants {
      */
     public static final char[] CAPTCHA_SEQUENCE = new char[]{'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
 
-    public interface OpCode {
-        public final int notification = 0;
-        public final int open = 1;
-        public final int stop = 2;
-        public final int ping = 3;
-        public final int createSession = -10;
-        public final int closeSession = -11;
-        public final int error = -1;
-    }
 }

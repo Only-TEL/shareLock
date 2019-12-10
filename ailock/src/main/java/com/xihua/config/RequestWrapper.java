@@ -43,20 +43,25 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         this.body = stringBuilder.toString();
     }
 
+    @Override
     public ServletInputStream getInputStream() throws IOException {
         final ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(this.body.getBytes());
         ServletInputStream servletInputStream = new ServletInputStream() {
+            @Override
             public boolean isFinished() {
                 return false;
             }
 
+            @Override
             public boolean isReady() {
                 return false;
             }
 
+            @Override
             public void setReadListener(ReadListener readListener) {
             }
 
+            @Override
             public int read() throws IOException {
                 return byteArrayInputStream.read();
             }
@@ -64,6 +69,7 @@ public class RequestWrapper extends HttpServletRequestWrapper {
         return servletInputStream;
     }
 
+    @Override
     public BufferedReader getReader() throws IOException {
         return new BufferedReader(new InputStreamReader(this.getInputStream()));
     }

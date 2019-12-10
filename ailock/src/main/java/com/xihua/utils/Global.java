@@ -9,7 +9,7 @@ import java.util.Map;
 
 public class Global {
 
-    private static final Logger log = LoggerFactory.getLogger(Global.class);
+    private static final Logger LOG = LoggerFactory.getLogger(Global.class);
     /** 全局配置文件 */
     private static String NAME = "application.yml";
     private static Map<String, String> map = new HashMap();
@@ -25,7 +25,7 @@ public class Global {
                 value = String.valueOf(YamlUtil.getProperty(yamlMap, key));
                 map.put(key, value != null ? value : "");
             } catch (FileNotFoundException var4) {
-                log.error("获取全局配置异常 {}", key);
+                LOG.error("获取全局配置异常 {}", key);
             }
         }
         return value;

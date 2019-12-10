@@ -21,7 +21,7 @@ import java.util.List;
 @Service
 public class GenServiceImpl implements IGenService {
 
-    private static final Logger log = LoggerFactory.getLogger(GenServiceImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(GenServiceImpl.class);
 
     @Autowired
     private GenMapper genMapper;
@@ -87,7 +87,7 @@ public class GenServiceImpl implements IGenService {
 
             }
         } catch (IOException e) {
-            log.error("渲染模板失败，表名：" + table.getTableName(), e);
+            LOG.error("渲染模板失败，表名：" + table.getTableName(), e);
         } finally {
             if(pw != null){
                 pw.close();

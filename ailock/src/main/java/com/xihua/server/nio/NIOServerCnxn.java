@@ -1,6 +1,7 @@
 package com.xihua.server.nio;
 
 import com.xihua.constants.Constants;
+import io.netty.util.CharsetUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -236,7 +237,7 @@ public class NIOServerCnxn extends ServerCnxn {
     }
 
     private void dealCommand(ByteBuffer rBuffer) throws IOException {
-        String requestMsg = String.valueOf(Constants.ASCII_CHARSET.decode(rBuffer).array());
+        String requestMsg = String.valueOf(CharsetUtil.US_ASCII.decode(rBuffer).array());
         LOG.info("processing resive msg >>> {} msg from {}", requestMsg, socketChannel.socket().getRemoteSocketAddress());
         processMsg(requestMsg);
     }

@@ -11,7 +11,7 @@ import java.util.concurrent.TimeUnit;
  */
 public class ThreadUtil {
 
-    private static final Logger logger = LoggerFactory.getLogger(ThreadUtil.class);
+    private static final Logger LOG = LoggerFactory.getLogger(ThreadUtil.class);
 
     public ThreadUtil() {
     }
@@ -31,7 +31,7 @@ public class ThreadUtil {
                 if (!pool.awaitTermination(120L, TimeUnit.SECONDS)) {
                     pool.shutdownNow();
                     if (!pool.awaitTermination(120L, TimeUnit.SECONDS)) {
-                        logger.info("Pool did not terminate");
+                        LOG.info("Pool did not terminate");
                     }
                 }
             } catch (InterruptedException var2) {
