@@ -47,7 +47,7 @@ public class BackRecodController extends BaseController {
         // 生成开锁记录
         int row = backRecodService.buildOpenRecord(openRecod, sysUser);
         return row > 0 ? AjaxResult.success(sysUser.getPhone()) : AjaxResult.error("开锁失败");
-        // todo 开锁成功后跳转至运行页面  在该页面使用websocket监听服务器的 /stop/back/{phone} 路径
+        // todo 开监锁成功后跳转至运行页面  在该页面使用websocket听服务器的 /stop/back/{phone} 路径
     }
 
     @ApiOperation("获取已开锁的车辆信息")

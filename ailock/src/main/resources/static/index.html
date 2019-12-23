@@ -11,7 +11,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">输入框</label>
         <div class="layui-input-block">
-            <input type="text" name="title" id='title' required lay-verify="required" placeholder="请输入编号"
+            <input type="text" name="title" id='backId' required lay-verify="required" placeholder="请输入编号"
                    autocomplete="off" class="layui-input">
         </div>
     </div>
@@ -30,7 +30,7 @@
         var form = layui.form;
         // 提交开锁请求
         form.on('submit(formDemo)', function (data) {
-            $.post("/run/" + $("#title").val(), function (result) {
+            $.post("/open/" + $("#backId").val(), function (result) {
                 console.log(result);
                 // 开锁成功，跳转到信息显示页面，该页面自动请求后台获取正在运行的单车数据
                 window.location.href = '/toinfo';

@@ -97,6 +97,7 @@ public class BackRecodServiceImpl extends AbstractService<BackRecod, Integer> im
             // 发送还车失败消息
             simpMessagingTemplate.convertAndSend("/stop/back/" + currentUser.getPhone(), "error");
         }
+        // 更新状态并计费
         updateRecord(runningRecord);
         backRecodService.saveOrUpdateBackRecod(runningRecord);
         // 向客户端推送消息

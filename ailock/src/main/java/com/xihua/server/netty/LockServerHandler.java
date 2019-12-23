@@ -2,6 +2,8 @@ package com.xihua.server.netty;
 
 import com.xihua.base.LockMessage;
 import com.xihua.constants.Constants;
+import com.xihua.manager.AsyncFactory;
+import com.xihua.manager.AsyncManager;
 import io.netty.channel.ChannelHandler.Sharable;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -39,7 +41,7 @@ public class LockServerHandler extends ChannelInboundHandlerAdapter {
         if (opcType.equals(Constants.STOP_PREFIX)) {
             // 处理停车逻辑
             LOG.info("停车，单车编号 backId {}", backId);
-            //AsyncManager.asyncManager().execute(AsyncFactory.syncSendStop(backId));
+            AsyncManager.asyncManager().execute(AsyncFactory.syncSendStop(backId));
         } else if (opcType.equals(Constants.BIND_PREFIX)) {
             // 绑定单车id和channelId
             LOG.info("绑定单车编号和channel，backId {},channelId {}", backId, channelId);

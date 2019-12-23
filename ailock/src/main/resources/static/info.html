@@ -21,13 +21,14 @@
             // 返回单车的id
             console.log("展示运行中的单车信息");
         });
-        let backId = '14141321231';
+        // phone会从后台发送过来
+        let phone = '14141321231';
         // 连接ws，订阅消息
         var socket = new SockJS('/xihua');
         stompClient = Stomp.over(socket);
         stompClient.connect({}, function (frame) {
             //订阅
-            stompClient.subscribe('/stop/back/' + backId, function (data) {
+            stompClient.subscribe('/stop/back/' + phone, function (data) {
                 console.log("data=" + data);
                 processData(data.body);
             });
