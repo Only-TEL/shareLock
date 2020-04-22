@@ -13,6 +13,7 @@
 
     <modules>
         <module>ailock</module>
+        <module>websocket-demo</module>
     </modules>
     <properties>
         <shareLock.version>1.0</shareLock.version>

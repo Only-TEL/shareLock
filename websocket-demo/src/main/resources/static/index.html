@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>index</title>
+</head>
+<body>
+    <h3>Hello World</h3>
+
+<script src="jquery.js"></script>
+<script src="/webjars/sockjs-client/1.0.2/sockjs.min.js"></script>
+<script src="/webjars/stomp-websocket/2.3.3/stomp.min.js"></script>
+<script>
+    // 使用websocket连接服务器
+    $(function(){
+        var socket = new SockJS('/myHandler');
+        stompClient = Stomp.over(socket);
+        stompClient.connect({}, function (frame) {
+            //订阅
+            stompClient.subscribe('/topic/abc', function (data) {
+                console.log("data=" + data);
+            });
+        });
+    });
+</script>
+</body>
+</html>
