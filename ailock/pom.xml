@@ -54,7 +54,7 @@
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
-            <version>5.1.47</version>
+            <version>8.0.16</version>
         </dependency>
         <!-- druid -->
         <dependency>
@@ -96,11 +96,13 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <dependency>
-            <groupId>com.google.guava</groupId>
-            <artifactId>guava</artifactId>
-            <version>18.0</version>
-        </dependency>
+        <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
+         <dependency>
+             <groupId>com.google.guava</groupId>
+             <artifactId>guava</artifactId>
+             <version>29.0-jre</version>
+         </dependency>
+
         <!-- yml解析器 -->
         <dependency>
             <groupId>org.yaml</groupId>
